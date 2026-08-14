@@ -1,0 +1,11 @@
+title: Affiniti Group
+description: SpeakEasy STT — legal and privacy documents
+theme: jekyll-theme-minimal
+
+# Nothing here is a blog. Turn off the post machinery so Jekyll does not look
+# for _posts or generate feeds nobody reads.
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
