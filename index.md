@@ -9,6 +9,8 @@ Publisher of **SpeakEasy STT**, a speech-to-text application for Windows.
 ## Legal
 
 - [Privacy Policy](/legal/privacy-policy/)
+- [End User License Agreement](/legal/eula/)
+- [Preview &amp; Research Software Terms](/legal/preview-terms/)
 
 ## Contact
 
