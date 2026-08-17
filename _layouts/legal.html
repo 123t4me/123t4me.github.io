@@ -4,47 +4,79 @@ layout: default
 {%- comment -%}
   Shared chrome for every document under /legal/.
 
-  THE RULE: this file owns the FORMAT; each document owns the CONTENT.
-  Nothing document-specific belongs here -- every varying value arrives as a
-  front-matter variable. Change the shape once and all four documents change
-  together, which is the only way the mandated first line stays identical
-  across them.
+  THE RULE: this file owns the FORMAT; each document owns the CONTENT. Nothing
+  document-specific belongs here -- every varying value arrives as front matter.
+  Change the shape once and all four documents change together, which is the
+  only way the mandated first line stays identical across them.
 
-  Front matter each legal document may set:
-    title      (required)  BROWSER TAB / nav label. Keep to two words max --
-                           it is what shows in a crowded tab strip, so
-                           "EULA", not "End User License Agreement".
-    heading    (optional)  full document name for the H1. Omit when it is the
-                           same as `title`.
-    product    (optional)  H1 prefix; defaults to site.product
-    version    (optional)  e.g. "1.2"
-    stamp      (optional)  e.g. "2026.08.05_1606"
-    updated    (required)  e.g. "August 5, 2026"
-    supersedes (optional)  renders the supersession notice
+  FRONT MATTER
+  ------------
+    title         (required)  The DOCUMENT TITLE. This is the <title> element:
+                              browser tab, bookmark name, OpenGraph title,
+                              search-result headline and the document's
+                              accessible name -- one string, all of those
+                              surfaces. There is no separate "tab" value in HTML;
+                              a tab is just a truncated rendering of this.
+                              Include the product here, e.g.
+                              "SpeakEasy Preview Terms".
 
-  `layout: legal` is applied automatically by the `defaults` block in
-  _config.yml -- documents do not declare it.
+                              NAME IS FIXED BY TOOLING: jekyll-seo-tag reads
+                              `page.title` specifically, and Liquid cannot remap
+                              it. It cannot be renamed to html_title without
+                              hand-emitting <title> in default.html and losing
+                              seo-tag's OpenGraph/JSON-LD output.
+
+    page_heading  (required)  The <h1> text, verbatim. NOT composed with a
+                              product prefix -- see below.
+
+    version       (required)  The whole version stamp, one string:
+                                  major.minor.patch_yyyy.mm.dd_hhmm
+                              e.g. "1.0.0_2026.08.17_1051"
+
+    notice        (optional)  Callout rendered under the version line.
+
+  WHY THE H1 IS NOT COMPOSED
+  --------------------------
+  It used to render `{{ product }} — {{ heading }}`, with a `product` front
+  matter override so one document could opt out of the site-wide prefix. That
+  was removed: `title` already carries the product, so the prefix repeated it,
+  and an override field whose only purpose is to permit an exception undermines
+  the enforcement it sits next to. The H1 is now exactly `page_heading`.
+
+  `layout: legal` is applied by the `defaults` block in _config.yml -- documents
+  never declare it.
 {%- endcomment -%}
 
 <header class="legal-header">
-  <a href="/legal/">Legal</a> &middot; {{ page.product | default: site.product }}
+  <a href="/legal/">Legal</a> &middot; {{ site.product }}
 </header>
 
-<h1>{{ page.product | default: site.product }} &mdash; {{ page.heading | default: page.title }}</h1>
+<h1>{{ page.page_heading }}</h1>
 
 {%- comment -%}
   The mandated first line, and the ONLY shape a legal document may render:
-      Version x.y_yyyy.mm.dd_hhmm — Last updated: Month day, year
-  Rendered, never hand-typed, so its punctuation and ordering cannot drift.
+      Version major.minor.patch_yyyy.mm.dd_hhmm — Last updated: Month day, year
 
-  There is deliberately NO fallback. An earlier version emitted the date alone
-  when `version`/`stamp` were absent, which meant two possible header shapes
-  chosen silently by which fields happened to be set -- exactly the drift this
-  layout exists to prevent. A document missing any of the three fields is not
-  finished, and scripts/Publish-LegalDocs.ps1 refuses to publish it, so this
-  template can assume all three are present.
+  ONE FIELD, TWO RENDERINGS. `version` holds the whole stamp and is printed
+  verbatim; the human date is DERIVED from the same characters by splitting on
+  "_" and reformatting. Earlier versions carried `stamp` and `updated` as
+  separate hand-typed fields, which meant a document could state
+  "Version 1.2_2026.08.05_1606 — Last updated: August 12, 2026" -- two dates
+  contradicting each other on a legal page, with nothing able to catch it.
+  Deriving makes that impossible rather than merely detectable.
+
+  Malformed input cannot reach here: Publish-LegalDocs.ps1 rejects any `version`
+  that does not match ^\d+\.\d+\.\d+_\d{4}\.\d{2}\.\d{2}_\d{4}$, so parts[1]
+  always exists and always parses as a date.
+
+  There is deliberately NO fallback shape. A document missing `version` is not
+  finished and is refused at publish time.
 {%- endcomment -%}
-<p class="legal-version"><strong>Version {{ page.version }}_{{ page.stamp }} &mdash; Last updated: {{ page.updated }}</strong></p>
+{%- assign v_parts = page.version | split: "_" -%}
+{%- assign v_iso = v_parts[1] | replace: ".", "-" -%}
+{%- unless page.version_position == "bottom" %}
+<p class="legal-version"><strong>Version {{ page.version }} &mdash; Last updated: {{ v_iso | date: "%B %-d, %Y" }}</strong></p>
+{%- endunless %}
 
 {%- comment -%}
   Optional callout under the version line. The layout owns only the STYLED BOX;
@@ -63,5 +95,30 @@ layout: default
 <div class="legal-body">
   {{ content }}
 </div>
+
+{%- comment -%}
+  BOTTOM-RIGHT STAMP. Same facts as the top version line, same single `version`
+  field, different placement -- for the /legal/ landing page, where a version
+  banner above a list of links would outweigh the links themselves.
+
+  Set `version_position: bottom` to move it here; the top line is suppressed by
+  the `unless` above, so it renders in exactly one place either way.
+
+  `version_label` names the document in the stamp. It exists because the label
+  and the H1 are different registers: the heading reads
+  "SpeakEasy Legal Policies, Terms, and Licensing", while the stamp wants a
+  short identifier like "Affiniti Group Legal Home Page".
+
+  This block replaced a hand-typed stamp in the landing page's BODY which had
+  drifted to a different version than its own front matter -- the page would
+  have published claiming two versions of itself.
+{%- endcomment -%}
+{%- if page.version_position == "bottom" %}
+<div class="legal-stamp">
+  {%- if page.version_label %}<div>{{ page.version_label }}</div>{% endif %}
+  <div>Version:&nbsp; {{ page.version }}</div>
+  <div>Last Updated:&nbsp; {{ v_iso | date: "%B %-d, %Y" }}</div>
+</div>
+{%- endif %}
 
 {% include legal-footer.html %}

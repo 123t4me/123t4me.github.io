@@ -1,10 +1,8 @@
 ---
-title: "Privacy Policy"
+title: "SpeakEasy Privacy"
+page_heading: "SpeakEasy Privacy Policy"
+version: "1.2.0_2026.08.05_1606"
 ---
-
-# SpeakEasy STT — Privacy Policy
-
-**Version 1.2_2026.08.05_1606 — Last updated: August 5, 2026**
 
 ## The short version
 

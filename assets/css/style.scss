@@ -579,3 +579,15 @@ footer {
     color:#444;
   }
 }
+
+// ── legal version stamp (bottom-right placement) ───────────────────────────
+// Used by pages that set `version_position: bottom` -- currently the /legal/
+// landing page, where a version banner above the list would outweigh the links
+// it sits over. Same facts as .legal-version, moved and quietened.
+.legal-stamp {
+  margin-top: 2.5rem;
+  text-align: right;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #666;
+}

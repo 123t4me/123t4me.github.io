@@ -1,10 +1,8 @@
 ---
-title: "End User License Agreement"
+title: "SpeakEasy EULA"
+page_heading: "SpeakEasy End User Licensing Agreement"
+version: "1.0.0_2026.08.17_1058"
 ---
-
-# SpeakEasy STT — End User License Agreement
-
-Last updated: August 14, 2026
 
 This End User License Agreement ("Agreement") is between you and
 Randy Glenn Garland, an individual doing business as Affiniti Group ("we,"

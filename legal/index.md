@@ -1,8 +1,10 @@
 ---
-title: "Legal"
+title: "SpeakEasy Legal"
+page_heading: "SpeakEasy Legal Policies, Terms, and Licensing"
+version: "1.0.0_2026.08.17_1056"
+version_position: "bottom"
+version_label: "Affiniti Group Legal Home Page"
 ---
-
-# Legal
 
 Documents governing SpeakEasy STT.
 
@@ -10,7 +12,8 @@ Documents governing SpeakEasy STT.
 - [End User License Agreement](/legal/eula/) — terms for using the released
   application.
 - [Preview &amp; Research Software Terms](/legal/preview-terms/) — terms for
-  preview, experimental, and research builds. These supersede the EULA for
-  that software.
+  preview, experimental, and research builds. These supersede the EULA for offered software.
+- [Third-Party Notices](/legal/third-party-notices/) - license agreements for Ai model, whisper.cpp, ONNX Runtime, Silero VAD, more
 
 Contact: privacy@123t4me.com · licensing@123t4me.com
+

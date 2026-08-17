@@ -1,10 +1,8 @@
 ---
-title: "Preview & Research Software Terms"
+title: "SpeakEasy Preview Terms"
+page_heading: "SpeakEasy Preview & Research Software Terms"
+version: "1.0.0_2026.08.17_1051"
 ---
-
-# SpeakEasy Preview & Research Software — Terms of Use
-
-Last updated: August 14, 2026
 
 These terms apply to software offered on our Preview / Research page. They are
 separate from, and take precedence over, the license and terms that accompany
