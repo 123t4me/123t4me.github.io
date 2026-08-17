@@ -36,14 +36,28 @@ defaults:
     values:
       layout: default
 
-  # Everything under /legal/ gets the shared legal chrome automatically, so no
-  # document declares `layout:` and none can forget to. Listed AFTER the
-  # catch-all above because Jekyll lets a later matching scope win.
+  # ── DELIBERATELY NOT ACTIVE YET (2026-08-17) ──────────────────────────────
   #
-  # EXCEPTION: legal/index.md sets `layout: default` in its own front matter --
-  # front matter beats defaults. It is a landing page, not a versioned
-  # document, so it takes no title/version header.
-  - scope:
-      path: "legal"
-    values:
-      layout: legal
+  #  - scope:
+  #      path: "legal"
+  #    values:
+  #      layout: legal
+  #
+  # This block and the DOCUMENTS ARE COUPLED and must ship together. Enabling it
+  # applies _layouts/legal.html to every page under /legal/, and that layout
+  # renders the H1 and the mandated version line from front-matter fields
+  # (product/heading/title/version/stamp/updated).
+  #
+  # It was enabled and pushed once WITHOUT the adapted documents, during the
+  # Stage 1 theme transfer. The published documents still carried their own H1
+  # and no version fields, so every legal page rendered a duplicate heading and
+  # a literal "Version _ — Last updated:" with empty values. Caught by diffing
+  # the live pages against a pre-change baseline; reverted within minutes.
+  #
+  # TO ENABLE: publish the documents and this file in the SAME run --
+  #     .\scripts\Publish-LegalDocs.ps1        (no -Only)
+  # which validates every document first and refuses if any lacks
+  # version/stamp/updated. Until then /legal/ keeps `layout: default` from the
+  # catch-all above, exactly as it rendered before the theme was vendored.
+  #
+  # Blocking on: version/stamp for legal/eula and legal/preview-terms.
