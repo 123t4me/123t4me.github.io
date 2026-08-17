@@ -4,13 +4,27 @@
   once for the whole site. Anything that varies per document belongs in that
   document's front matter, not here.
 {%- endcomment -%}
-<footer class="legal-footer">
+{%- comment -%}
+  <div>, NOT <footer>. The theme scopes its fixed sidebar footer to the BARE
+  ELEMENT selector `footer` (position:fixed; bottom:50px; float:left;
+  width:270px), so a <footer class="legal-footer"> inherited it, left the
+  document flow and pinned itself to the viewport bottom -- leaving roughly
+  250px of dead space between the end of the content and the contact line on
+  every published page. See the matching note in _layouts/legal.html.
+{%- endcomment -%}
+<div class="legal-footer">
   <p class="legal-contact">
     Contact:
     <a href="mailto:{{ site.contact_privacy }}">{{ site.contact_privacy }}</a>
     &middot;
     <a href="mailto:{{ site.contact_licensing }}">{{ site.contact_licensing }}</a>
   </p>
+  {%- comment -%}
+    "All legal documents" links to /legal/, so on /legal/ it is a link to the
+    page you are already on. Omitted there for the same reason as the breadcrumb.
+  {%- endcomment -%}
+  {%- unless page.url == "/legal/" %}
   <p class="legal-back"><a href="/legal/">All legal documents</a></p>
+  {%- endunless %}
   <p class="legal-copyright">&copy; {{ site.copyright_year }} {{ site.publisher }}. All rights reserved.</p>
-</footer>
+</div>

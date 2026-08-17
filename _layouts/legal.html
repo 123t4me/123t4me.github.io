@@ -47,9 +47,24 @@ layout: default
   never declare it.
 {%- endcomment -%}
 
-<header class="legal-header">
+{%- comment -%}
+  <nav>, NOT <header>. This theme scopes its fixed sidebar to the BARE ELEMENT
+  selector `header` (width:270px; float:left; position:fixed). A
+  <header class="legal-header"> is still a header element, so it inherited all
+  of that, left the document flow, and rendered on top of the H1 -- on every
+  published page. <nav> is also the more accurate element for a breadcrumb.
+  Same reasoning applies to <footer> in _includes/legal-footer.html.
+
+  Suppressed on the landing page itself: a breadcrumb whose only link points at
+  the page you are already reading is noise. Keyed on page.url rather than on
+  any front matter flag -- "am I the page this links to" is the actual
+  condition, and it needs no field that could be set wrong.
+{%- endcomment -%}
+{%- unless page.url == "/legal/" %}
+<nav class="legal-header">
   <a href="/legal/">Legal</a> &middot; {{ site.product }}
-</header>
+</nav>
+{%- endunless %}
 
 <h1>{{ page.page_heading }}</h1>
 

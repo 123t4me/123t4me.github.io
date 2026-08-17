@@ -334,9 +334,14 @@ a {
   text-decoration:none;
 }
 
+// DEVIATION FROM UPSTREAM jekyll-theme-minimal (2026-08-17): was
+// `font-weight: bold`. Bold glyphs are wider than regular, so hovering any link
+// re-laid out its line and shoved the following text to the right -- every link
+// on every page jogged the paragraph around it. Underline gives the same hover
+// affordance with no geometry change.
 a:hover, a:focus {
   color:#069;
-  font-weight: bold;
+  text-decoration: underline;
 }
 
 a small {
@@ -455,9 +460,10 @@ ul.downloads {
   height:34px;
 }
 
+// Same reflow deviation as a:hover above.
 .downloads a:hover, .downloads a:focus {
   color:#675C5C;
-  font-weight:bold;
+  text-decoration: underline;
 }
 
 .downloads ul a:active {
@@ -578,6 +584,65 @@ footer {
     font-size:12pt;
     color:#444;
   }
+}
+
+// ══ legal document chrome ══════════════════════════════════════════════════
+//
+// WHY THESE EXIST AT ALL (2026-08-17): they didn't. _layouts/legal.html was
+// written against .legal-header / .legal-version / .legal-notice / .legal-body
+// / .legal-footer and not one of them had a rule anywhere in this stylesheet,
+// so the chrome rendered with pure browser defaults on every published page.
+//
+// It was worse than unstyled. This theme scopes its FIXED SIDEBAR to the bare
+// element selectors `header` and `footer` (see further up). The layout emitted
+// <header class="legal-header"> and <footer class="legal-footer">, which ARE
+// header and footer elements -- so both inherited
+// `position:fixed; float:left; width:270px` and were ripped out of the document
+// flow: the breadcrumb pinned itself over the H1, and the footer pinned itself
+// to bottom:50px, leaving ~250px of dead space above it.
+//
+// Fixed at the source by emitting <nav> and <div> instead of <header>/<footer>,
+// so nothing here has to fight the theme with overrides. These rules only need
+// to style; they no longer need to un-break.
+
+.legal-header {
+  font-size: 0.8125rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.legal-version {
+  font-size: 0.8125rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+// Callout under the version line, for a document that needs to say something
+// about its own standing before its text begins (e.g. that it supersedes
+// another agreement). Deliberately quiet -- it is a note, not a warning.
+.legal-notice {
+  border-left: 3px solid #d8ccea;
+  background: #f7f4fb;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: #444;
+}
+
+// Long legal text at the theme's default 1.5 is dense. Loosen it here only, so
+// document bodies read comfortably without touching the rest of the site.
+.legal-body {
+  line-height: 1.65;
+}
+
+.legal-footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e5e5;
+  font-size: 0.8125rem;
+  color: #888;
+
+  p { margin: 0 0 0.35rem; }
 }
 
 // ── legal version stamp (bottom-right placement) ───────────────────────────

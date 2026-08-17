@@ -13,7 +13,4 @@ Documents governing SpeakEasy STT.
   application.
 - [Preview &amp; Research Software Terms](/legal/preview-terms/) — terms for
   preview, experimental, and research builds. These supersede the EULA for offered software.
-- [Third-Party Notices](/legal/third-party-notices/) - license agreements for Ai model, whisper.cpp, ONNX Runtime, Silero VAD, more
-
-Contact: privacy@123t4me.com · licensing@123t4me.com
-
+- [Third-Party Notices](/legal/third-party-notices/) — license agreements for Ai model, whisper.cpp, ONNX Runtime, Silero VAD, more

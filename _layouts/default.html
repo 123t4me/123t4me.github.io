@@ -27,9 +27,13 @@
         <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
         {% endif %}
 
-        {% if site.github.is_user_page %}
-        <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
-        {% endif %}
+        {%- comment -%}
+          Upstream rendered "View My GitHub Profile" here on any user page.
+          Removed 2026-08-17: this site exists to publish legal documents for a
+          product, and a first-person link out to a personal GitHub profile
+          beside a EULA reads as a hobby page. The theme is ours now, so this
+          is deleted at the source rather than hidden with CSS.
+        {%- endcomment -%}
 
         {% if site.show_downloads %}
         <ul class="downloads">
