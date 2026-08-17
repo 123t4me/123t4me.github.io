@@ -1,7 +1,7 @@
 ---
 title: "SpeakEasy Legal"
 page_heading: "SpeakEasy Legal Policies, Terms, and Licensing"
-version: "1.0.0_2026.08.17_1056"
+version: "1.1.0_2026.08.17_1301"
 version_position: "bottom"
 version_label: "Affiniti Group Legal Home Page"
 ---
