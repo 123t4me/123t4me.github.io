@@ -1,0 +1,16 @@
+{%- comment -%}
+  Footer shared by every /legal/ document AND by the /legal/ landing page.
+  Constant copy only -- addresses come from _config.yml so they are stated
+  once for the whole site. Anything that varies per document belongs in that
+  document's front matter, not here.
+{%- endcomment -%}
+<footer class="legal-footer">
+  <p class="legal-contact">
+    Contact:
+    <a href="mailto:{{ site.contact_privacy }}">{{ site.contact_privacy }}</a>
+    &middot;
+    <a href="mailto:{{ site.contact_licensing }}">{{ site.contact_licensing }}</a>
+  </p>
+  <p class="legal-back"><a href="/legal/">All legal documents</a></p>
+  <p class="legal-copyright">&copy; {{ site.copyright_year }} {{ site.publisher }}. All rights reserved.</p>
+</footer>

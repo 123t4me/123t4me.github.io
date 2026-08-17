@@ -1,6 +1,32 @@
 title: Affiniti Group
 description: SpeakEasy STT — legal and privacy documents
-theme: jekyll-theme-minimal
+
+# ─────────────────────────── no theme gem ───────────────────────────
+# `theme: jekyll-theme-minimal` was REMOVED 2026-08-17 (Stage 1). The theme is
+# now vendored into this repo -- _layouts/default.html, _includes/head-custom*,
+# assets/css/style.scss, assets/js/scale.fix.js and the Noto Sans binaries under
+# assets/fonts/ are all ours. The transfer was verbatim; the rendered pages did
+# not change.
+#
+# jekyll-seo-tag MUST be declared here. The vendored _layouts/default.html calls
+# {% seo %}, and that tag came from the theme gem's runtime dependency. Removing
+# the theme takes the dependency with it, and an undeclared {% seo %} is an
+# unknown-tag BUILD FAILURE, not a missing meta tag -- the whole site stops
+# publishing. jekyll-seo-tag is on the GitHub Pages allowlist, so declaring it
+# is supported.
+plugins:
+  - jekyll-seo-tag
+
+# ─────────────────────────── shared copy ───────────────────────────
+# Stated ONCE for the whole site. _includes/legal-footer.html and
+# _layouts/legal.html read these, so changing an address or the product
+# name here changes every legal document at once. Never repeat these
+# values inside a document.
+product: "SpeakEasy STT"
+publisher: "Affiniti Group"
+copyright_year: "2026"
+contact_privacy: "privacy@123t4me.com"
+contact_licensing: "licensing@123t4me.com"
 
 # Nothing here is a blog. Turn off the post machinery so Jekyll does not look
 # for _posts or generate feeds nobody reads.
@@ -9,3 +35,15 @@ defaults:
       path: ""
     values:
       layout: default
+
+  # Everything under /legal/ gets the shared legal chrome automatically, so no
+  # document declares `layout:` and none can forget to. Listed AFTER the
+  # catch-all above because Jekyll lets a later matching scope win.
+  #
+  # EXCEPTION: legal/index.md sets `layout: default` in its own front matter --
+  # front matter beats defaults. It is a landing page, not a versioned
+  # document, so it takes no title/version header.
+  - scope:
+      path: "legal"
+    values:
+      layout: legal

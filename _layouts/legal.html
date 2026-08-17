@@ -1,0 +1,67 @@
+---
+layout: default
+---
+{%- comment -%}
+  Shared chrome for every document under /legal/.
+
+  THE RULE: this file owns the FORMAT; each document owns the CONTENT.
+  Nothing document-specific belongs here -- every varying value arrives as a
+  front-matter variable. Change the shape once and all four documents change
+  together, which is the only way the mandated first line stays identical
+  across them.
+
+  Front matter each legal document may set:
+    title      (required)  BROWSER TAB / nav label. Keep to two words max --
+                           it is what shows in a crowded tab strip, so
+                           "EULA", not "End User License Agreement".
+    heading    (optional)  full document name for the H1. Omit when it is the
+                           same as `title`.
+    product    (optional)  H1 prefix; defaults to site.product
+    version    (optional)  e.g. "1.2"
+    stamp      (optional)  e.g. "2026.08.05_1606"
+    updated    (required)  e.g. "August 5, 2026"
+    supersedes (optional)  renders the supersession notice
+
+  `layout: legal` is applied automatically by the `defaults` block in
+  _config.yml -- documents do not declare it.
+{%- endcomment -%}
+
+<header class="legal-header">
+  <a href="/legal/">Legal</a> &middot; {{ page.product | default: site.product }}
+</header>
+
+<h1>{{ page.product | default: site.product }} &mdash; {{ page.heading | default: page.title }}</h1>
+
+{%- comment -%}
+  The mandated first line, and the ONLY shape a legal document may render:
+      Version x.y_yyyy.mm.dd_hhmm — Last updated: Month day, year
+  Rendered, never hand-typed, so its punctuation and ordering cannot drift.
+
+  There is deliberately NO fallback. An earlier version emitted the date alone
+  when `version`/`stamp` were absent, which meant two possible header shapes
+  chosen silently by which fields happened to be set -- exactly the drift this
+  layout exists to prevent. A document missing any of the three fields is not
+  finished, and scripts/Publish-LegalDocs.ps1 refuses to publish it, so this
+  template can assume all three are present.
+{%- endcomment -%}
+<p class="legal-version"><strong>Version {{ page.version }}_{{ page.stamp }} &mdash; Last updated: {{ page.updated }}</strong></p>
+
+{%- comment -%}
+  Optional callout under the version line. The layout owns only the STYLED BOX;
+  the sentence itself is the document's content, so it lives in that document's
+  front matter and can be worded exactly as counsel wants without touching this
+  file. Omit `notice:` and nothing renders.
+
+  Note for whoever writes it: "supersedes" and "takes precedence over" are not
+  interchangeable -- the first replaces the other agreement outright, the second
+  leaves both in force and wins only on conflict.
+{%- endcomment -%}
+{%- if page.notice %}
+<p class="legal-notice">{{ page.notice }}</p>
+{%- endif %}
+
+<div class="legal-body">
+  {{ content }}
+</div>
+
+{% include legal-footer.html %}
