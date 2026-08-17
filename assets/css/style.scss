@@ -586,6 +586,23 @@ footer {
   }
 }
 
+// ── stop the page jumping sideways between documents ───────────────────────
+//
+// .wrapper is `margin: 0 auto`, so it centres in whatever width is left after
+// the scrollbar. Short pages (/legal/, 720px) have no vertical scrollbar; long
+// ones (every actual document) do. That 15px of scrollbar narrows the viewport,
+// and a centred column absorbs half of it -- so clicking from the index into a
+// document shifted the whole page 7px left, and going back shifted it right.
+// Measured, not guessed: wrapper left edge 210px vs 203px.
+//
+// `scrollbar-gutter: stable` reserves the space on every page whether or not a
+// scrollbar is drawn, so the column lands in the same place always. Preferred
+// over `overflow-y: scroll`, which achieves the same thing by permanently
+// showing an empty scrollbar track.
+html {
+  scrollbar-gutter: stable;
+}
+
 // ══ legal document chrome ══════════════════════════════════════════════════
 //
 // WHY THESE EXIST AT ALL (2026-08-17): they didn't. _layouts/legal.html was
