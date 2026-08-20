@@ -652,6 +652,17 @@ html {
   line-height: 1.65;
 }
 
+// Bug #019 (2026-08-19): licence texts arrive as hard-wrapped ASCII at ~80
+// monospace columns — wider than this theme's content column — so every
+// licence <pre> on the third-party notices page clipped its right edge behind
+// a horizontal scrollbar. Wrap instead of scroll: pre-wrap keeps each
+// licence's own line breaks and indentation and folds only the lines that
+// would overflow, so the full text is always readable at any width.
+.legal-body pre {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 .legal-footer {
   margin-top: 3rem;
   padding-top: 1rem;
