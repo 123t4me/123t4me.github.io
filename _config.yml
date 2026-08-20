@@ -16,6 +16,11 @@ description: SpeakEasy STT — legal and privacy documents
 # is supported.
 plugins:
   - jekyll-seo-tag
+  # Drives the root index.md's `redirect_to: /legal/` (2026-08-19). The site
+  # root is legal-only for now, and a generated redirect page beats hand-typed
+  # meta-refresh HTML pushed through kramdown. On the GitHub Pages allowlist,
+  # bundled by the github-pages gem, so declaring it is supported.
+  - jekyll-redirect-from
 
 # ─────────────────────────── shared copy ───────────────────────────
 # Stated ONCE for the whole site. _includes/legal-footer.html and
